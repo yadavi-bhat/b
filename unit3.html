@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 · Human Physiology — Bio for Engineers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F0F4FF;--surface:#fff;--surface-alt:#F6F8FF;--ink:#141C2E;--ink-soft:#4A5568;--ink-faint:#8899AA;--line:#DDE3F0;
+  --v:#5B3E9E;--vs:#EFE9FB;--vl:#D7C9F2;
+  --m:#C62D6F;--ms:#FBE6EE;--ml:#F3C4D9;
+  --t:#0E8E89;--ts:#E1F4F2;--tl:#BCE6E1;
+  --a:#B8720D;--as:#FBEDD8;--al:#F0CE9A;
+  --g:#3F8E52;--gs:#E6F4E8;--gl:#BFE1C6;
+  --r:#C23B3B;--rs:#FBE7E7;--rl:#F0BFBF;
+  --font:'Plus Jakarta Sans',sans-serif;--mono:'Space Mono',monospace;--display:'Fraunces',serif;
+  --rad:18px;--rads:10px;--sh:0 2px 12px rgba(20,28,46,.07);--shl:0 6px 28px rgba(20,28,46,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+button{font-family:var(--font);cursor:pointer;}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;color:var(--ink);}
+ul{padding-left:1.3em;}li{margin-bottom:.45em;}li::marker{color:var(--v);}
+p{margin-bottom:.7em;}
+
+.hero{background:linear-gradient(135deg,#0A4D4A 0%,#0E8E89 40%,#C62D6F 100%);padding:40px 24px 30px;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;border-radius:50%;filter:blur(60px);opacity:.3;pointer-events:none;}
+.hero-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:5px 13px;font-family:var(--mono);font-size:11px;color:#fff;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;}
+.hero h1{font-size:clamp(26px,4vw,44px);color:#fff;line-height:1.05;letter-spacing:-.015em;margin-bottom:10px;}
+.hero h1 em{font-style:italic;color:#FFD580;}
+.hero p.lede{color:rgba(255,255,255,.8);font-size:15px;max-width:580px;margin-bottom:20px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hchip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:7px 13px;font-size:13px;color:#fff;}
+.hchip b{color:#FFD580;}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(240,244,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 20px;display:flex;gap:4px;overflow-x:auto;}
+.ntab{background:none;border:none;border-bottom:3px solid transparent;padding:15px 14px 12px;font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;transition:color .15s,border-color .15s;}
+.ntab:hover{color:var(--ink);}
+.ntab.on{color:var(--t);border-bottom-color:var(--t);font-weight:700;}
+
+.view{display:none;animation:fi .25s ease;}
+.view.on{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+.cards-wrap{max-width:1300px;margin:0 auto;padding:24px 20px 70px;display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;}
+@media(max-width:860px){.cards-wrap{grid-template-columns:1fr;}}
+
+.sidebar{position:sticky;top:58px;background:var(--surface);border:1px solid var(--line);border-radius:var(--rad);padding:14px;max-height:calc(100vh - 80px);overflow-y:auto;box-shadow:var(--sh);}
+@media(max-width:860px){.sidebar{position:static;max-height:none;}}
+.sg-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:4px 8px 6px;display:block;margin-top:10px;}
+.sg-label:first-child{margin-top:0;}
+.tbtn{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;padding:8px 10px;border-radius:9px;font-size:13px;color:var(--ink-soft);font-weight:500;margin-bottom:1px;transition:background .13s,color .13s;}
+.tbtn:hover{background:var(--surface-alt);color:var(--ink);}
+.tbtn.on{background:var(--ts);color:var(--t);font-weight:700;}
+.tbtn .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.topic{display:none;}
+.topic.on{display:block;animation:fi .3s ease;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--rad);padding:28px 30px 32px;box-shadow:var(--sh);}
+@media(max-width:600px){.card{padding:18px 16px 22px;}}
+.spec-tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:3px;transform:rotate(-1deg);margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.spec-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+.card h2{font-size:clamp(20px,2.8vw,28px);letter-spacing:-.01em;margin-bottom:4px;}
+.card .sub{color:var(--ink-soft);font-size:14px;margin-bottom:20px;}
+
+.sh3{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);margin-bottom:9px;font-weight:700;}
+.pts{font-size:14.5px;}
+.pts li{margin-bottom:.5em;}
+.pts b{color:var(--ink);}
+
+.twocol{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start;margin-bottom:20px;}
+@media(max-width:720px){.twocol{grid-template-columns:1fr;}}
+
+.dbox{background:var(--surface-alt);border:1px solid var(--line);border-radius:14px;padding:14px;}
+.dcap{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);text-align:center;margin-top:7px;letter-spacing:.03em;}
+
+.callout{border-radius:12px;padding:14px 16px;margin:14px 0;border:1px solid;}
+.callout h4{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.callout p,.callout li{font-size:13.5px;margin-bottom:.3em;}
+.callout.mem{background:var(--as);border-color:var(--al);}
+.callout.mem h4{color:var(--a);}
+.callout.tip{background:var(--ts);border-color:var(--tl);}
+.callout.tip h4{color:var(--t);}
+.callout.exam{background:var(--ms);border-color:var(--ml);}
+.callout.exam h4{color:var(--m);}
+
+.iq{background:var(--surface-alt);border:1px dashed var(--ink-faint);border-radius:12px;padding:14px 16px;margin-top:14px;}
+.iq h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:7px;}
+.iq ol{padding-left:1.2em;font-size:14px;}
+.iq li{margin-bottom:.45em;}
+
+.cmp{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0;}
+.cmp th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:9px 11px;background:var(--surface-alt);color:var(--ink-faint);border-bottom:2px solid var(--line);}
+.cmp td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top;}
+.cmp tr:last-child td{border-bottom:none;}
+.cmp td:first-child{font-weight:600;color:var(--m);}
+.cmp td:nth-child(2){color:var(--g);}
+
+.sb{margin-bottom:20px;}
+
+.stepper{background:var(--surface-alt);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+.step-stage{display:flex;justify-content:center;margin-bottom:10px;}
+.step-stage svg{max-width:380px;width:100%;}
+.step-lbl{text-align:center;font-family:var(--display);font-weight:700;font-size:17px;color:var(--t);margin-bottom:4px;}
+.step-desc{text-align:center;font-size:13.5px;color:var(--ink-soft);max-width:420px;margin:0 auto 12px;}
+.step-ctrl{display:flex;align-items:center;justify-content:center;gap:12px;}
+.sbtn{background:var(--t);color:#fff;border:none;border-radius:100px;padding:8px 20px;font-size:13px;font-weight:700;}
+.sbtn:disabled{background:var(--line);color:var(--ink-faint);cursor:not-allowed;}
+.dots{display:flex;gap:6px;}
+.dot2{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .2s;cursor:pointer;}
+.dot2.on{background:var(--t);}
+
+.recap-wrap{max-width:1300px;margin:0 auto;padding:24px 20px 70px;}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:20px;}
+.rc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--sh);}
+.rc-tag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:8px;}
+.rc h4{font-size:15px;margin-bottom:7px;}
+.rc ul{font-size:13px;padding-left:1.1em;}
+.rc li{margin-bottom:.3em;}
+
+.la-wrap{max-width:900px;margin:0 auto;padding:24px 20px 70px;}
+.la-item{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;box-shadow:var(--sh);overflow:hidden;}
+.la-q{width:100%;display:flex;align-items:center;gap:12px;padding:14px 18px;background:none;border:none;text-align:left;}
+.la-q .qn{font-family:var(--mono);font-size:12px;color:var(--t);font-weight:700;flex-shrink:0;min-width:30px;}
+.la-q .qt{font-size:14.5px;font-weight:600;color:var(--ink);flex:1;}
+.la-q .arr{color:var(--ink-faint);font-size:18px;transition:transform .2s;flex-shrink:0;}
+.la-item.open .arr{transform:rotate(180deg);}
+.la-ans{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.la-item.open .la-ans{max-height:5000px;}
+.la-ans-inner{padding:0 18px 18px;border-top:1px solid var(--line);padding-top:12px;}
+.la-ans-inner ul{font-size:13.5px;padding-left:1.2em;}
+.la-ans-inner li{margin-bottom:.5em;}
+.la-ans-inner b{color:var(--t);}
+.la-ans-inner .cmp{font-size:13px;}
+
+.mcq-wrap{max-width:920px;margin:0 auto;padding:24px 20px 90px;}
+.mcq-bar{position:sticky;top:54px;z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:9px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--sh);margin-bottom:20px;flex-wrap:wrap;}
+.mcq-sc{font-family:var(--mono);font-size:13px;color:var(--ink-soft);}
+.mcq-sc b{color:var(--t);}
+.rstbtn{font-family:var(--mono);font-size:11px;text-transform:uppercase;background:var(--surface-alt);border:1px solid var(--line);border-radius:100px;padding:6px 13px;color:var(--ink-soft);cursor:pointer;}
+.mcq-sec{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin:28px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--line);}
+.mcq-i{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--sh);}
+.mcq-q{font-size:14.5px;font-weight:600;margin-bottom:11px;display:flex;gap:9px;}
+.mcq-q .qn{font-family:var(--mono);color:var(--m);flex-shrink:0;}
+.mcq-opts{display:grid;gap:7px;}
+.opt{display:flex;align-items:center;gap:9px;text-align:left;background:var(--surface-alt);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;font-size:13.5px;color:var(--ink);transition:border-color .14s,background .14s;width:100%;cursor:pointer;}
+.opt:hover:not(:disabled){border-color:var(--tl);background:var(--ts);}
+.opt .lt{font-family:var(--mono);font-weight:700;color:var(--ink-faint);width:18px;flex-shrink:0;}
+.opt:disabled{cursor:default;}
+.opt.correct{background:var(--gs);border-color:var(--g);color:var(--g) !important;}
+.opt.correct .lt{color:var(--g) !important;}
+.opt.wrong{background:var(--rs);border-color:var(--r);color:var(--r) !important;}
+.opt.wrong .lt{color:var(--r) !important;}
+.exp{display:none;margin-top:10px;padding:10px 13px;background:var(--ts);border-left:3px solid var(--t);border-radius:0 9px 9px 0;font-size:13px;color:var(--ink);}
+.exp.show{display:block;animation:fi .2s ease;}
+
+.formula{background:linear-gradient(135deg,var(--ts),var(--vs));border:2px solid var(--tl);border-radius:12px;padding:14px 18px;text-align:center;font-family:var(--mono);font-size:14px;color:var(--ink);margin:12px 0;letter-spacing:.03em;}
+.formula b{color:var(--t);}
+
+.pill{display:inline-block;padding:2px 9px;border-radius:100px;font-size:12px;font-weight:600;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-glow" style="width:400px;height:400px;background:#C62D6F;top:-100px;right:-80px;"></div>
+  <div class="hero-glow" style="width:300px;height:300px;background:#0E8E89;bottom:-80px;left:100px;"></div>
+  <div class="hero-inner">
+    <span class="hero-badge">🫀 BIO FOR ENGINEERS · UNIT 3 · SEM EXAM DECK</span>
+    <h1>Human <em>Physiology</em></h1>
+    <p class="lede">Every topic from your notes — study cards, diagrams, mnemonics, long answers solved, and 60+ MCQs. Nutrition → Digestion → Respiration → Excretion → Artificial Organs. Exam-ready in one tab.</p>
+    <div class="hero-chips">
+      <span class="hchip"><b>12</b> topic cards</span>
+      <span class="hchip"><b>25</b> long answers</span>
+      <span class="hchip"><b>62</b> MCQs</span>
+      <span class="hchip"><b>Nutrition → Organs → Devices</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="ntab on" onclick="sv('cards',this)">📚 Study Cards</button>
+    <button class="ntab" onclick="sv('recap',this)">⚡ Quick Recap</button>
+    <button class="ntab" onclick="sv('la',this)">✍️ Long Answers</button>
+    <button class="ntab" onclick="sv('mcq',this)">🧠 MCQ Bank</button>
+  </div>
+</nav>
+
+<!-- ===================== STUDY CARDS ===================== -->
+<section class="view on" id="view-cards">
+<div class="cards-wrap">
+  <nav class="sidebar">
+    <span class="sg-label">🍎 Nutrition</span>
+    <button class="tbtn on" onclick="st('carbs',this)"><span class="dot" style="background:var(--t)"></span>Carbohydrates</button>
+    <button class="tbtn" onclick="st('lipids',this)"><span class="dot" style="background:var(--t)"></span>Lipids</button>
+    <button class="tbtn" onclick="st('proteins',this)"><span class="dot" style="background:var(--t)"></span>Proteins</button>
+    <button class="tbtn" onclick="st('water',this)"><span class="dot" style="background:var(--t)"></span>Water</button>
+    <button class="tbtn" onclick="st('minerals',this)"><span class="dot" style="background:var(--t)"></span>Minerals</button>
+    <span class="sg-label">🦷 Digestive System</span>
+    <button class="tbtn" onclick="st('digest',this)"><span class="dot" style="background:var(--m)"></span>Digestive System</button>
+    <button class="tbtn" onclick="st('accessory',this)"><span class="dot" style="background:var(--m)"></span>Accessory Organs</button>
+    <span class="sg-label">🫁 Respiratory System</span>
+    <button class="tbtn" onclick="st('resp',this)"><span class="dot" style="background:var(--v)"></span>Respiratory System</button>
+    <button class="tbtn" onclick="st('aerobic',this)"><span class="dot" style="background:var(--v)"></span>Aerobic vs Anaerobic</button>
+    <span class="sg-label">🫘 Excretory System</span>
+    <button class="tbtn" onclick="st('excrete',this)"><span class="dot" style="background:var(--a)"></span>Excretory System</button>
+    <span class="sg-label">🤖 Artificial Organs</span>
+    <button class="tbtn" onclick="st('heart',this)"><span class="dot" style="background:var(--r)"></span>Heart &amp; Pacemaker</button>
+    <button class="tbtn" onclick="st('artorgans',this)"><span class="dot" style="background:var(--r)"></span>Artificial Lungs &amp; Kidneys</button>
+  </nav>
+
+  <div id="content-area">
+
+    <!-- ========== CARD: CARBOHYDRATES ========== -->
+    <article class="topic on" id="t-carbs">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ts);color:var(--t)">Topic 01 · Nutrition</span>
+        <h2>Carbohydrates</h2>
+        <p class="sub">The body's primary fuel source — made of Carbon, Hydrogen & Oxygen.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">What are they?</p>
+              <ul class="pts">
+                <li>Nutrients made of <b>carbon, hydrogen, and oxygen</b>.</li>
+                <li>The <b>main source of energy</b> for the body.</li>
+                <li>Brain cells and red blood cells <b>depend ONLY on carbohydrates</b> for energy.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Food Sources</p>
+              <ul class="pts">
+                <li>🌾 <b>Grains</b> – rice, wheat, bread</li>
+                <li>🥛 <b>Dairy</b> – milk, yogurt</li>
+                <li>🍌 <b>Fruits</b> – bananas, apples</li>
+                <li>🫘 <b>Legumes</b> – beans, lentils</li>
+                <li>🥔 <b>Starchy vegetables</b> – potatoes, corn</li>
+                <li>🥕 <b>Non-starchy vegetables</b> – carrots, spinach (small amounts)</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Two Main Types</p>
+              <ul class="pts">
+                <li><b>Simple carbohydrates</b> – simple sugars (fruits, sweets) → fast energy</li>
+                <li><b>Complex carbohydrates</b> – fiber, starch, glycogen (whole grains, legumes) → slow sustained energy</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="160" y="16" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">CARBOHYDRATE TYPES</text>
+              <!-- Simple -->
+              <rect x="20" y="30" width="130" height="80" rx="12" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <text x="85" y="55" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#0E8E89">SIMPLE</text>
+              <text x="85" y="72" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">Sugars</text>
+              <text x="85" y="87" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">Fruits · Sweets</text>
+              <text x="85" y="100" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#0E8E89">⚡ Fast energy</text>
+              <!-- Complex -->
+              <rect x="170" y="30" width="130" height="80" rx="12" fill="#FBE6EE" stroke="#C62D6F" stroke-width="2"/>
+              <text x="235" y="55" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#C62D6F">COMPLEX</text>
+              <text x="235" y="72" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">Fiber · Starch · Glycogen</text>
+              <text x="235" y="87" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">Whole grains · Legumes</text>
+              <text x="235" y="100" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#C62D6F">🐢 Slow energy</text>
+              <!-- Body uses -->
+              <rect x="60" y="130" width="200" height="60" rx="12" fill="#EFE9FB" stroke="#5B3E9E" stroke-width="2"/>
+              <text x="160" y="152" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#5B3E9E">BODY PRIORITY</text>
+              <text x="160" y="168" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">🧠 Brain + 🩸 RBCs rely ONLY</text>
+              <text x="160" y="182" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">on carbohydrates for energy!</text>
+              <line x1="85" y1="110" x2="130" y2="130" stroke="#8899AA" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="235" y1="110" x2="190" y2="130" stroke="#8899AA" stroke-width="1.5" stroke-dasharray="4,3"/>
+            </svg>
+            <p class="dcap">Fig 1.1 — Simple vs Complex Carbohydrates</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"CHO = Carbon Hydrogen Oxygen"</b> — same letters as the formula! Remember: <b>G</b>rains, <b>D</b>airy, <b>F</b>ruits, <b>L</b>egumes, <b>V</b>eggies = "<b>Good Diet Feeds Living Vitality</b>"</p></div>
+        <div class="callout exam"><h4>⭐ Important for Exam</h4><p>Brain cells & RBCs = ONLY carbohydrate users. Simple = fast/sugar. Complex = fiber+starch+glycogen.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>List and describe six major classes of nutrients. (Q1)</li><li>Explain the biological role of carbohydrates in human nutrition. (Q3)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: LIPIDS ========== -->
+    <article class="topic" id="t-lipids">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ts);color:var(--t)">Topic 02 · Nutrition</span>
+        <h2>Lipids</h2>
+        <p class="sub">Fats & oils — energy storage, insulation, and cell membrane builders.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">What are they?</p>
+              <ul class="pts">
+                <li>Made of <b>carbon, hydrogen, and oxygen</b> — like carbohydrates.</li>
+                <li>Key difference: lipids are <b>water-insoluble</b> (don't mix with water).</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Sources</p>
+              <ul class="pts">
+                <li>🧈 Butter · 🫒 Oils · 🥩 Meat</li>
+                <li>🥛 Dairy products · 🥜 Nuts & seeds</li>
+                <li>Many processed foods</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Types of Lipids</p>
+              <ul class="pts">
+                <li><b>Triglycerides</b> – main form of fat in food and body</li>
+                <li><b>Phospholipids</b> – important for cell membranes</li>
+                <li><b>Sterols</b> – e.g. cholesterol</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Functions</p>
+              <ul class="pts">
+                <li>Store and provide <b>energy</b></li>
+                <li>Build <b>cell membranes</b></li>
+                <li><b>Protect organs</b> (fat padding)</li>
+                <li>Keep body <b>warm</b> (insulation)</li>
+                <li>Help in <b>body regulation</b> functions (hormones)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+              <text x="150" y="16" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">TYPES OF LIPIDS</text>
+              <!-- Triglyceride -->
+              <rect x="10" y="28" width="85" height="75" rx="10" fill="#FBEDD8" stroke="#B8720D" stroke-width="2"/>
+              <text x="52" y="50" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#B8720D">TRIGLYCERIDE</text>
+              <text x="52" y="65" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Glycerol +</text>
+              <text x="52" y="78" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">3 fatty acids</text>
+              <text x="52" y="93" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#B8720D">Main body fat</text>
+              <!-- Phospholipid -->
+              <rect x="107" y="28" width="85" height="75" rx="10" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <text x="149" y="46" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">PHOSPHO-</text>
+              <text x="149" y="57" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">LIPID</text>
+              <text x="149" y="72" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Head (water-</text>
+              <text x="149" y="84" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">loving) + tails</text>
+              <text x="149" y="96" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#0E8E89">Cell membrane</text>
+              <!-- Sterol -->
+              <rect x="205" y="28" width="85" height="75" rx="10" fill="#EFE9FB" stroke="#5B3E9E" stroke-width="2"/>
+              <text x="248" y="50" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#5B3E9E">STEROLS</text>
+              <text x="248" y="68" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">e.g. Cholesterol</text>
+              <text x="248" y="82" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Ring structure</text>
+              <text x="248" y="96" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#5B3E9E">Hormones</text>
+              <!-- Functions row -->
+              <rect x="10" y="120" width="280" height="50" rx="10" fill="#FBE6EE" stroke="#C62D6F" stroke-width="1.5"/>
+              <text x="150" y="139" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#C62D6F">FUNCTIONS: Energy · Cell Membranes</text>
+              <text x="150" y="155" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Organ protection · Insulation · Body regulation</text>
+            </svg>
+            <p class="dcap">Fig 1.2 — Three types of lipids and their roles</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"TPS = Triple Power of lipids"</b> → <b>T</b>riglycerides (energy) · <b>P</b>hospholipids (membranes) · <b>S</b>terols (hormones). Lipids = <b>"Water's Enemy"</b> — insoluble!</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Define six classes of nutrients required by the body. (Q4)</li><li>Explain lipids and their functions. (Q2)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: PROTEINS ========== -->
+    <article class="topic" id="t-proteins">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ts);color:var(--t)">Topic 03 · Nutrition</span>
+        <h2>Proteins</h2>
+        <p class="sub">The body's building blocks — chains of amino acids doing everything.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">Composition</p>
+              <ul class="pts">
+                <li>Large molecules made of <b>chains of amino acids</b>.</li>
+                <li>Amino acids = simple subunits made of <b>carbon, oxygen, hydrogen, and nitrogen</b>.</li>
+                <li>Nitrogen is what makes proteins unique compared to carbs/lipids.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Food Sources</p>
+              <ul class="pts">
+                <li>🥩 Meats · 🧀 Dairy products · 🐟 Seafood</li>
+                <li>🫘 Beans · 🥜 Nuts · 🌱 Seeds (plant-based)</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Functions</p>
+              <ul class="pts">
+                <li>Provide <b>structure to bones, muscles, and skin</b></li>
+                <li>Conduct most <b>chemical reactions</b> in the body (enzymes are proteins!)</li>
+                <li>Important for <b>growth, repair, and immune function</b></li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+              <text x="150" y="16" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">PROTEIN STRUCTURE</text>
+              <!-- Amino acids chain -->
+              <circle cx="40" cy="70" r="18" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <text x="40" y="74" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">AA</text>
+              <line x1="58" y1="70" x2="82" y2="70" stroke="#8899AA" stroke-width="2"/>
+              <circle cx="100" cy="70" r="18" fill="#FBE6EE" stroke="#C62D6F" stroke-width="2"/>
+              <text x="100" y="74" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#C62D6F">AA</text>
+              <line x1="118" y1="70" x2="142" y2="70" stroke="#8899AA" stroke-width="2"/>
+              <circle cx="160" cy="70" r="18" fill="#EFE9FB" stroke="#5B3E9E" stroke-width="2"/>
+              <text x="160" y="74" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#5B3E9E">AA</text>
+              <line x1="178" y1="70" x2="202" y2="70" stroke="#8899AA" stroke-width="2"/>
+              <circle cx="220" cy="70" r="18" fill="#FBEDD8" stroke="#B8720D" stroke-width="2"/>
+              <text x="220" y="74" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#B8720D">AA</text>
+              <line x1="238" y1="70" x2="262" y2="70" stroke="#8899AA" stroke-width="2" stroke-dasharray="4,3"/>
+              <text x="270" y="74" font-family="Space Mono" font-size="14" fill="#8899AA">…</text>
+              <text x="150" y="105" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="11" fill="#4A5568">Chain of Amino Acids = PROTEIN</text>
+              <!-- Elements -->
+              <rect x="30" y="120" width="240" height="45" rx="10" fill="#E6F4E8" stroke="#3F8E52" stroke-width="1.5"/>
+              <text x="150" y="138" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#3F8E52">Elements: C · O · H · N</text>
+              <text x="150" y="155" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#4A5568">Nitrogen = what makes proteins UNIQUE!</text>
+            </svg>
+            <p class="dcap">Fig 1.3 — Amino acids link to form protein chains</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"COHN = Carbon Oxygen Hydrogen Nitrogen"</b> — remember: proteins have <b>N</b>itrogen, carbs & lipids don't! <b>"Proteins BUILD and RUN the body"</b> — Structure + Enzymes.</p></div>
+        <div class="callout exam"><h4>⭐ Exam Tip</h4><p>Proteins = amino acids = C+O+H+<b>N</b>. The N is the key distinguisher. Enzymes = proteins. Sources = meat, dairy, seafood, beans, nuts, seeds.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Explain importance of consumption of proteins in nutrition. (Q5)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: WATER ========== -->
+    <article class="topic" id="t-water">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ts);color:var(--t)">Topic 04 · Nutrition</span>
+        <h2>Water</h2>
+        <p class="sub">The universal solvent — 60%+ of your body is water.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">Composition</p>
+              <ul class="pts">
+                <li>Does <b>NOT contain carbon</b> — unique among nutrients.</li>
+                <li>Made of <b>2 hydrogen atoms + 1 oxygen</b> (H₂O) per molecule.</li>
+                <li><b>More than 60%</b> of total body weight is water.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Why is Water Essential?</p>
+              <ul class="pts">
+                <li>Without it, <b>nothing could be transported</b> in or out of the body.</li>
+                <li><b>Chemical reactions</b> would not occur.</li>
+                <li>Organs would not be <b>cushioned</b>.</li>
+                <li>Body temperature would <b>fluctuate widely</b>.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Daily Intake</p>
+              <ul class="pts">
+                <li>An adult consumes <b>just over 2 litres per day</b> from food and drink combined.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="16" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">WATER IN THE BODY</text>
+              <!-- Body silhouette water fill -->
+              <ellipse cx="140" cy="105" rx="70" ry="85" fill="#BCE6E1" stroke="#0E8E89" stroke-width="2.5" opacity=".5"/>
+              <ellipse cx="140" cy="110" rx="70" ry="80" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <!-- 60% label -->
+              <text x="140" y="95" text-anchor="middle" font-family="Fraunces" font-size="28" font-weight="700" fill="#0E8E89">60%+</text>
+              <text x="140" y="115" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="11" fill="#4A5568">of body weight</text>
+              <text x="140" y="132" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="11" fill="#4A5568">is water</text>
+              <!-- H2O formula -->
+              <text x="140" y="160" text-anchor="middle" font-family="Space Mono" font-size="14" fill="#0E8E89" font-weight="700">H₂O</text>
+              <text x="140" y="178" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="10" fill="#8899AA">No carbon · 2H + 1O</text>
+            </svg>
+            <p class="dcap">Fig 1.4 — Water makes up >60% of body weight</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"TCOT = Transport · Chemical reactions · Organ cushioning · Temperature regulation"</b> — water does all 4! Water = the body's <b>logistics system</b>.</p></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: MINERALS ========== -->
+    <article class="topic" id="t-minerals">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ts);color:var(--t)">Topic 05 · Nutrition</span>
+        <h2>Minerals</h2>
+        <p class="sub">Major & trace minerals — tiny but mighty regulators.</p>
+        <div class="sb"><p class="sh3">Major Minerals (hundreds of mg/day needed)</p>
+          <table class="cmp">
+            <thead><tr><th>Mineral</th><th>Key Function</th></tr></thead>
+            <tbody>
+              <tr><td>Sodium (Na)</td><td>Fluid balance · nerve transmission · muscle contraction</td></tr>
+              <tr><td>Chloride (Cl)</td><td>Fluid balance · stomach acid production</td></tr>
+              <tr><td>Potassium (K)</td><td>Fluid balance · nerve transmission · muscle contraction</td></tr>
+              <tr><td>Calcium (Ca)</td><td>Bone & teeth health · nerve transmission · muscle contraction · blood clotting</td></tr>
+              <tr><td>Phosphorus (P)</td><td>Bone & teeth health · acid-base balance</td></tr>
+              <tr><td>Magnesium (Mg)</td><td>Protein production · nerve transmission · muscle contraction</td></tr>
+              <tr><td>Sulfur (S)</td><td>Protein production</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sb"><p class="sh3">Trace (Minor) Minerals</p>
+          <table class="cmp">
+            <thead><tr><th>Mineral</th><th>Key Function</th></tr></thead>
+            <tbody>
+              <tr><td>Iron (Fe)</td><td>Carries oxygen · assists energy production</td></tr>
+              <tr><td>Zinc (Zn)</td><td>Protein & DNA production · wound healing · growth · immune function</td></tr>
+              <tr><td>Iodine (I)</td><td>Thyroid hormone production · growth · metabolism</td></tr>
+              <tr><td>Selenium (Se)</td><td>Antioxidant</td></tr>
+              <tr><td>Copper (Cu)</td><td>Coenzyme · iron metabolism</td></tr>
+              <tr><td>Manganese (Mn)</td><td>Coenzyme</td></tr>
+              <tr><td>Fluoride (F)</td><td>Bone & teeth health · tooth decay prevention</td></tr>
+              <tr><td>Chromium (Cr)</td><td>Assists insulin in glucose metabolism</td></tr>
+              <tr><td>Molybdenum (Mo)</td><td>Coenzyme</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic — Major Minerals</h4><p><b>"NaCl KCa PhMgS"</b> → <b>Na</b>·<b>Cl</b>·<b>K</b>·<b>Ca</b>·<b>Ph</b>osphorus·<b>Mg</b>·<b>S</b>ulfur. For trace: <b>"IZI SeCuMn FluChroMo"</b> = Iron·Zinc·Iodine·Selenium·Copper·Manganese·Fluoride·Chromium·Molybdenum.</p></div>
+        <div class="callout exam"><h4>⭐ Exam Tip</h4><p>Calcium = bone + nerve + muscle + blood clotting (most functions!). Iron = oxygen carrier. Iodine = thyroid. Fluoride = teeth decay prevention.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>List and describe six major classes of nutrients. (Q1)</li><li>Differentiate between major and trace minerals. (Q7)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: DIGESTIVE SYSTEM ========== -->
+    <article class="topic" id="t-digest">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ms);color:var(--m)">Topic 06 · Digestion</span>
+        <h2>The Digestive System</h2>
+        <p class="sub">Food → Energy: a 7-organ journey from mouth to anus.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">What is it?</p>
+              <ul class="pts">
+                <li>Group of organs that <b>convert food into energy</b>.</li>
+                <li>Consists of the <b>GI (gastrointestinal) tract</b> + <b>accessory organs</b> (liver, pancreas, gallbladder).</li>
+                <li>GI tract organs (in order): <b>Mouth → Pharynx → Oesophagus → Stomach → Small Intestine → Large Intestine → Rectum → Anus</b></li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Parts Explained</p>
+              <ul class="pts">
+                <li><b>Mouth</b> – Teeth break food; saliva softens it; tongue pushes to pharynx.</li>
+                <li><b>Pharynx</b> – Connects mouth to oesophagus; also used for breathing.</li>
+                <li><b>Oesophagus</b> – Long muscular tube; moves food to stomach via peristalsis.</li>
+                <li><b>Stomach</b> – Muscular bag (left upper belly, below diaphragm); stores food; makes digestive juices + HCl.</li>
+                <li><b>Mucous</b> – Watery substance; protects stomach wall from its own acid.</li>
+                <li><b>Digestive Enzymes</b> – Break large molecules into smaller absorbable forms.</li>
+                <li><b>HCl (Hydrochloric Acid)</b> – Kills bacteria; helps break down food.</li>
+                <li><b>Small Intestine</b> – Most digestion & nutrient absorption happens here.</li>
+                <li><b>Large Intestine</b> – Absorbs water & electrolytes; forms solid waste (stool).</li>
+                <li><b>Rectum</b> – Stores waste until expulsion.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="dbox">
+              <svg viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg">
+                <text x="120" y="14" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#8899AA">DIGESTIVE SYSTEM</text>
+                <!-- Mouth -->
+                <ellipse cx="120" cy="35" rx="35" ry="16" fill="#FBE6EE" stroke="#C62D6F" stroke-width="2"/>
+                <text x="120" y="39" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#C62D6F">MOUTH</text>
+                <!-- Pharynx -->
+                <rect x="100" y="53" width="40" height="20" rx="5" fill="#BCE6E1" stroke="#0E8E89" stroke-width="1.5"/>
+                <text x="120" y="67" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">PHARYNX</text>
+                <!-- Oesophagus -->
+                <rect x="111" y="75" width="18" height="40" rx="5" fill="#E1F4F2" stroke="#0E8E89" stroke-width="1.5"/>
+                <text x="148" y="97" font-family="Space Mono" font-size="7" fill="#0E8E89">OESOPHAGUS</text>
+                <line x1="129" y1="95" x2="143" y2="95" stroke="#8899AA" stroke-width="1" stroke-dasharray="2,2"/>
+                <!-- Stomach -->
+                <ellipse cx="105" cy="140" rx="38" ry="28" fill="#FBEDD8" stroke="#B8720D" stroke-width="2"/>
+                <text x="105" y="138" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#B8720D">STOMACH</text>
+                <text x="105" y="150" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" fill="#B8720D">HCl + Enzymes</text>
+                <!-- Small intestine -->
+                <path d="M120 170 q20 15 10 35 q-20 20 0 35 q20 15 5 30" stroke="#5B3E9E" stroke-width="10" fill="none" stroke-linecap="round"/>
+                <text x="158" y="205" font-family="Space Mono" font-size="7" fill="#5B3E9E">SMALL</text>
+                <text x="158" y="215" font-family="Space Mono" font-size="7" fill="#5B3E9E">INTESTINE</text>
+                <line x1="148" y1="210" x2="136" y2="210" stroke="#8899AA" stroke-width="1" stroke-dasharray="2,2"/>
+                <!-- Large intestine -->
+                <path d="M125 270 q-40 0 -40 -40 q0 -20 10 -30" stroke="#3F8E52" stroke-width="10" fill="none" stroke-linecap="round"/>
+                <text x="30" y="250" font-family="Space Mono" font-size="7" fill="#3F8E52">LARGE</text>
+                <text x="25" y="260" font-family="Space Mono" font-size="7" fill="#3F8E52">INTESTINE</text>
+                <!-- Rectum/Anus -->
+                <rect x="108" y="275" width="24" height="35" rx="8" fill="#FBE6EE" stroke="#C62D6F" stroke-width="1.5"/>
+                <text x="148" y="295" font-family="Space Mono" font-size="7" fill="#C62D6F">RECTUM</text>
+                <line x1="132" y1="292" x2="146" y2="292" stroke="#8899AA" stroke-width="1" stroke-dasharray="2,2"/>
+                <text x="120" y="325" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Mouth → Anus</text>
+              </svg>
+              <p class="dcap">Fig 2.1 — Human digestive tract</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digestion stepper -->
+        <div class="stepper">
+          <div class="step-stage" id="dstage"></div>
+          <div class="step-lbl" id="dlbl">Mouth</div>
+          <div class="step-desc" id="ddesc">Digestion begins here. Teeth mechanically break food; salivary amylase chemically breaks down starch; tongue pushes food toward pharynx.</div>
+          <div class="step-ctrl">
+            <button class="sbtn" id="dprev" onclick="dStep(-1)" disabled>← Prev</button>
+            <div class="dots" id="ddots"></div>
+            <button class="sbtn" id="dnext" onclick="dStep(1)">Next →</button>
+          </div>
+        </div>
+
+        <div class="callout mem"><h4>🧠 Mnemonic — GI Tract Order</h4><p><b>"My Pretty Oesophagus Says 'Sincerely Love Rectum'"</b> → <b>M</b>outh · <b>P</b>harynx · <b>O</b>esophagus · <b>S</b>tomach · <b>S</b>mall intestine · <b>L</b>arge intestine · <b>R</b>ectum</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Outline the process of digestion in human stomach. (Q10)</li><li>How does food get digested? Explain organs involved. (Q9)</li><li>Describe briefly the digestive system. (Q8)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: ACCESSORY ORGANS ========== -->
+    <article class="topic" id="t-accessory">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--ms);color:var(--m)">Topic 07 · Digestion</span>
+        <h2>Accessory Digestive Organs</h2>
+        <p class="sub">Pancreas · Liver · Gallbladder — the support team of digestion.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">Pancreas</p>
+              <ul class="pts">
+                <li>Large gland located <b>just behind the stomach</b>.</li>
+                <li>Makes and releases <b>digestive enzymes</b>.</li>
+                <li>Enzymes help <b>break down food</b> during digestion (sent to small intestine).</li>
+                <li>Key enzymes: <b>amylase</b> (carbs), <b>lipase</b> (fats), <b>trypsin/protease</b> (proteins).</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Liver</p>
+              <ul class="pts">
+                <li>Found on the <b>right side</b> of the abdomen.</li>
+                <li>Produces <b>bile</b> — a fluid that helps digest <b>fats</b> in the small intestine.</li>
+                <li>Also detoxifies blood, produces blood proteins, stores glycogen.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Gallbladder</p>
+              <ul class="pts">
+                <li>Small organ located <b>under the liver</b>.</li>
+                <li><b>Stores and recycles bile</b> made by the liver.</li>
+                <li>Bile is <b>released into the small intestine</b> when food arrives there.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="15" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">ACCESSORY ORGANS</text>
+              <!-- Liver -->
+              <path d="M60 40 q80-20 140 10 q20 30 0 60 q-40 20 -80 15 q-60-5 -70-40 Z" fill="#FBEDD8" stroke="#B8720D" stroke-width="2"/>
+              <text x="130" y="75" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#B8720D">LIVER</text>
+              <text x="130" y="88" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Produces BILE</text>
+              <!-- Gallbladder -->
+              <ellipse cx="185" cy="115" rx="22" ry="15" fill="#E6F4E8" stroke="#3F8E52" stroke-width="2"/>
+              <text x="185" y="119" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#3F8E52">GALLBLADDER</text>
+              <text x="185" y="142" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Stores bile</text>
+              <!-- Pancreas -->
+              <path d="M50 140 q60-15 120 5 q20 10 15 25 q-70 20-130 0 Z" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <text x="100" y="158" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#0E8E89">PANCREAS</text>
+              <text x="100" y="172" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="9" fill="#4A5568">Digestive enzymes</text>
+              <!-- Small intestine box -->
+              <rect x="80" y="185" width="120" height="25" rx="8" fill="#EFE9FB" stroke="#5B3E9E" stroke-width="1.5"/>
+              <text x="140" y="201" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#5B3E9E">→ SMALL INTESTINE</text>
+              <!-- Arrows -->
+              <line x1="140" y1="95" x2="140" y2="185" stroke="#C62D6F" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="185" y1="130" x2="160" y2="185" stroke="#3F8E52" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="100" y1="175" x2="120" y2="185" stroke="#0E8E89" stroke-width="1.5" stroke-dasharray="4,3"/>
+            </svg>
+            <p class="dcap">Fig 2.2 — Accessory organs feeding into small intestine</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"PiLGrim"</b> → <b>P</b>ancreas (enzymes) · <b>L</b>iver (bile maker) · <b>G</b>allbladder (bile store). All deliver to the <b>small intestine</b>!</p></div>
+        <div class="callout exam"><h4>⭐ Exam Tip</h4><p>Liver = MAKES bile. Gallbladder = STORES bile. Pancreas = makes ENZYMES. Bile breaks down FATS (lipids).</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Explain the roles of liver, gallbladder and pancreas. (Q13)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: RESPIRATORY SYSTEM ========== -->
+    <article class="topic" id="t-resp">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--vs);color:var(--v)">Topic 08 · Respiration</span>
+        <h2>The Respiratory System</h2>
+        <p class="sub">Trachea → Bronchi → Bronchioles → Alveoli — the O₂/CO₂ highway.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">Overview</p>
+              <ul class="pts">
+                <li>Made up of organs/tissues that <b>help us breathe</b>.</li>
+                <li>Takes in <b>oxygen</b> and removes <b>carbon dioxide</b>.</li>
+                <li>Oxygen → carried by blood → used by cells → <b>cellular respiration</b> → produces CO₂ as waste.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Key Parts</p>
+              <ul class="pts">
+                <li><b>Trachea (Windpipe)</b> – Connects larynx to bronchi; reinforced by cartilaginous rings.</li>
+                <li><b>Bronchi & Bronchioles</b> – Air tubes branching into left & right lungs, getting progressively smaller.</li>
+                <li><b>Alveoli</b> – Tiny, balloon-like air sacs at the end of bronchioles where <b>gas exchange</b> occurs. Surrounded by rich capillary networks.</li>
+                <li><b>Diaphragm</b> – Dome-shaped muscle below lungs that contracts to draw air in and relaxes to expel air.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="15" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">GAS EXCHANGE IN ALVEOLI</text>
+              <!-- Alveolus circle -->
+              <circle cx="140" cy="110" r="45" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/>
+              <text x="140" y="105" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#0E8E89">Alveolus</text>
+              <text x="140" y="120" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" fill="#4A5568">(Air Sac)</text>
+              <!-- Capillary blood vessel wrapping around -->
+              <path d="M 50 150 Q 140 170 230 150" fill="none" stroke="#C23B3B" stroke-width="6" stroke-linecap="round"/>
+              <text x="140" y="195" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#C23B3B">Capillary Blood Flow</text>
+              <!-- Gas exchange arrows -->
+              <!-- O2 diffusing into blood -->
+              <path d="M 140 125 L 140 152" fill="none" stroke="#3F8E52" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="146" y="140" font-family="Space Mono" font-size="8" fill="#3F8E52">O₂</text>
+              <!-- CO2 diffusing into air -->
+              <path d="M 160 150 L 160 128" fill="none" stroke="#C62D6F" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="166" y="142" font-family="Space Mono" font-size="8" fill="#C62D6F">CO₂</text>
+            </svg>
+            <p class="dcap">Fig 3.1 — Diffusion across the respiratory membrane</p>
+          </div>
+        </div>
+        <div class="callout tip"><h4>💡 Physiology Fact</h4><p>Diffusion is passive, driven by <b>partial pressure gradients</b>. Oxygen diffuses from high pressure in alveoli to low pressure in deoxygenated blood; Carbon Dioxide does the opposite.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Describe the anatomy and gas exchange mechanism of the human respiratory system. (Q16)</li><li>Explain gas exchange across the alveolar-capillary membrane. (Q17)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: AEROBIC VS ANAEROBIC ========== -->
+    <article class="topic" id="t-aerobic">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--vs);color:var(--v)">Topic 09 · Respiration</span>
+        <h2>Aerobic vs. Anaerobic Respiration</h2>
+        <p class="sub">How cells generate ATP — with or without Oxygen.</p>
+        <div class="sb"><p class="sh3">Comparison Summary</p>
+          <table class="cmp">
+            <thead><tr><th>Feature</th><th>Aerobic Respiration</th><th>Anaerobic Respiration</th></tr></thead>
+            <tbody>
+              <tr><td>Oxygen Requirement</td><td>Yes</td><td>No</td></tr>
+              <tr><td>Energy Yield</td><td>High (36-38 ATP per glucose)</td><td>Low (2 ATP per glucose)</td></tr>
+              <tr><td>Location</td><td>Cytoplasm &amp; Mitochondria</td><td>Cytoplasm only</td></tr>
+              <tr><td>End Products</td><td>CO₂ + H₂O</td><td>Lactic Acid (animals) or Ethanol + CO₂ (yeast)</td></tr>
+              <tr><td>Efficiency</td><td>High (approx. 40%)</td><td>Low (approx. 2%)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sb"><p class="sh3">Chemical Pathways</p>
+          <div class="formula">
+            <b>Aerobic:</b> C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + <b>36-38 ATP</b>
+          </div>
+          <div class="formula">
+            <b>Anaerobic (Lactic Acid):</b> C₆H₁₂O₆ → 2 Lactic Acid + <b>2 ATP</b>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"Aerobic is Air-obic"</b> — requires <b>air (oxygen)</b>, happens in mitochondria. <b>"Anaerobic is Anti-air"</b> — operates without oxygen, fast but low yield (makes muscles burn with lactic acid!).</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Differentiate cellular respiration and breathing. (Q14)</li><li>Differentiate between aerobic and anaerobic respiration. (Q15)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: EXCRETORY SYSTEM ========== -->
+    <article class="topic" id="t-excrete">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--as);color:var(--a)">Topic 10 · Excretion</span>
+        <h2>The Excretory System</h2>
+        <p class="sub">Filtration, Reabsorption &amp; Secretion — the body's water purification plant.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">What is it?</p>
+              <ul class="pts">
+                <li>System responsible for **eliminating metabolic waste** (urea, excess salts, water) and maintaining osmotic balance.</li>
+                <li>Key Organs: **Kidneys (2) → Ureters (2) → Urinary Bladder (1) → Urethra (1)**.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">The Nephron (Functional Unit)</p>
+              <ul class="pts">
+                <li>Each kidney contains **~1 million nephrons**.</li>
+                <li>**Bowman's Capsule &amp; Glomerulus**: Blood pressure forces water and small solutes out of capillaries (Ultrafiltration).</li>
+                <li>**Renal Tubules**: Reabsorb essential nutrients (glucose, water, ions) back into blood; secrete waste ions into urine.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="15" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">THE NEPHRON PROCESS</text>
+              <!-- Glomerulus circle -->
+              <circle cx="70" cy="100" r="25" fill="#FBE7E7" stroke="#C23B3B" stroke-width="2"/>
+              <text x="70" y="103" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#C23B3B">Glomerulus</text>
+              <!-- Bowman Capsule -->
+              <path d="M 110 65 A 40 40 0 1 0 110 135 L 170 120" fill="none" stroke="#0E8E89" stroke-width="3"/>
+              <text x="110" y="55" font-family="Space Mono" font-size="8" fill="#0E8E89">Bowman's Capsule</text>
+              <!-- Tubule arrow -->
+              <path d="M 115 100 L 230 100" fill="none" stroke="#5B3E9E" stroke-width="2.5" stroke-dasharray="4,2"/>
+              <!-- Three Steps markers -->
+              <rect x="40" y="150" width="65" height="40" rx="6" fill="#FBE7E7" stroke="#C23B3B" stroke-width="1.5"/>
+              <text x="72" y="166" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" font-weight="700" fill="#C23B3B">1. FILTRATION</text>
+              <text x="72" y="180" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="7" fill="#4A5568">Glomerulus</text>
+
+              <rect x="115" y="150" width="75" height="40" rx="6" fill="#E1F4F2" stroke="#0E8E89" stroke-width="1.5"/>
+              <text x="152" y="166" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" font-weight="700" fill="#0E8E89">2. REABSORPTION</text>
+              <text x="152" y="180" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="7" fill="#4A5568">PCT/Loop/DCT</text>
+
+              <rect x="200" y="150" width="65" height="40" rx="6" fill="#EFE9FB" stroke="#5B3E9E" stroke-width="1.5"/>
+              <text x="232" y="166" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" font-weight="700" fill="#5B3E9E">3. SECRETION</text>
+              <text x="232" y="180" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="7" fill="#4A5568">Collecting Duct</text>
+            </svg>
+            <p class="dcap">Fig 4.1 — Three steps of urine formation in nephron</p>
+          </div>
+        </div>
+        <div class="callout mem"><h4>🧠 Mnemonic</h4><p><b>"F-R-S: Urine is Made of Three"</b> → <b>F</b>iltration (Bowman's) · <b>R</b>eabsorption (Tubules to blood) · <b>S</b>ecretion (Blood to tubules). Nephron = <b>"Filtering Recycled Streams"</b>.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Explain function of human excretory system. (Q18)</li><li>Describe nephron structure and urine formation. (Q19)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: HEART & PACEMAKER ========== -->
+    <article class="topic" id="t-heart">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--rs);color:var(--r)">Topic 11 · Artificial Organs</span>
+        <h2>Cardiac Pacemaker</h2>
+        <p class="sub">Engineering the heart's rhythm — SA node replacement.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">The SA Node (Natural Pacemaker)</p>
+              <ul class="pts">
+                <li>Specialized muscle cells in the **right atrium** that generate electrical pulses.</li>
+                <li>Spreads electrical signals through the heart, causing ventricles to contract and pump blood.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Artificial Pacemaker</p>
+              <ul class="pts">
+                <li>An electronic device implanted under the skin to **regulate slow or irregular heartbeats** (bradycardia).</li>
+                <li>Components: **Pulse Generator** (lithium battery + circuits) and **Leads/Electrodes** (threaded through veins into the heart tissue).</li>
+                <li>Working: Circuits sense heart's rhythm; if it drops below a threshold, the generator fires micro-pulses to stimulate contraction.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="15" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">ARTIFICIAL PACEMAKER SYSTEM</text>
+              <!-- Heart outline -->
+              <path d="M 120 120 C 60 70, 70 30, 120 60 C 170 30, 180 70, 120 120" fill="none" stroke="#C23B3B" stroke-width="3"/>
+              <!-- Pacemaker device -->
+              <rect x="20" y="30" width="55" height="40" rx="8" fill="#FDE7E7" stroke="#C23B3B" stroke-width="2"/>
+              <text x="47" y="50" text-anchor="middle" font-family="Space Mono" font-size="7" font-weight="700" fill="#C23B3B">PULSE</text>
+              <text x="47" y="60" text-anchor="middle" font-family="Space Mono" font-size="6" fill="#C23B3B">GEN</text>
+              <!-- Lead wire -->
+              <path d="M 75 50 C 110 50, 100 80, 110 70" fill="none" stroke="#8899AA" stroke-width="2" stroke-dasharray="2,2"/>
+              <!-- Electrode point -->
+              <circle cx="110" cy="70" r="4" fill="#C23B3B"/>
+              <text x="145" y="80" font-family="Space Mono" font-size="8" fill="#C23B3B">Lead / SA Node</text>
+            </svg>
+            <p class="dcap">Fig 5.1 — Pacemaker system implanted in heart</p>
+          </div>
+        </div>
+        <div class="callout tip"><h4>⚙️ Engineering Specs</h4><p>Pacemakers use **Lithium-iodine batteries** which last 7-10 years. Lead wires must withstand **millions of flexes** per year without fatigue failure.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Explain the working principle of a cardiac pacemaker. (Q21)</li><li>Explain the function and design of an artificial heart. (Q22)</li></ol></div>
+      </div>
+    </article>
+
+    <!-- ========== CARD: ARTIFICIAL LUNGS & KIDNEYS ========== -->
+    <article class="topic" id="t-artorgans">
+      <div class="card">
+        <span class="spec-tag" style="background:var(--rs);color:var(--r)">Topic 12 · Artificial Organs</span>
+        <h2>Artificial Lungs &amp; Kidneys</h2>
+        <p class="sub">Mass transfer membrane systems mimicking homeostatic filters.</p>
+        <div class="twocol">
+          <div>
+            <div class="sb"><p class="sh3">Artificial Lung (Oxygenator)</p>
+              <ul class="pts">
+                <li>Used during cardiopulmonary bypass (heart-lung machine) or ECMO.</li>
+                <li>Consists of thousands of **hollow fiber membranes**.</li>
+                <li>Blood flows around fibers; sweep gas (pure oxygen) flows inside fibers.</li>
+                <li>**Passive diffusion** forces oxygen into blood and CO₂ out.</li>
+              </ul>
+            </div>
+            <div class="sb"><p class="sh3">Artificial Kidney (Hemodialyzer)</p>
+              <ul class="pts">
+                <li>Filters urea and excess waste from blood during kidney failure (renal dialysis).</li>
+                <li>Uses **semi-permeable hollow fibers** wrapped in a dialyzer casing.</li>
+                <li>Blood flows through fibers, while a salt solution (dialysate) flows around them in a **countercurrent direction**.</li>
+                <li>Urea and excess salts diffuse down their concentration gradient into the dialysate, purifying the blood.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="140" y="15" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#8899AA">DIALYZER MASS TRANSFER</text>
+              <!-- Dialyzer cylinder -->
+              <rect x="50" y="40" width="180" height="90" rx="10" fill="#F6F8FF" stroke="#5B3E9E" stroke-width="2"/>
+              <!-- Fibers -->
+              <line x1="50" y1="70" x2="230" y2="70" stroke="#C23B3B" stroke-width="4"/>
+              <line x1="50" y1="100" x2="230" y2="100" stroke="#C23B3B" stroke-width="4"/>
+              <text x="140" y="60" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#C23B3B">Blood (Inside Fibers)</text>
+              <!-- Dialysate countercurrent arrows -->
+              <path d="M 210 115 L 70 115" fill="none" stroke="#0E8E89" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="140" y="128" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">Dialysate Flow (Outside)</text>
+              <!-- Waste diffusion dots -->
+              <circle cx="120" cy="85" r="2" fill="#B8720D"/>
+              <circle cx="160" cy="85" r="2" fill="#B8720D"/>
+              <text x="140" y="90" text-anchor="middle" font-family="Plus Jakarta Sans" font-size="8" fill="#B8720D">Urea Diffuses Out</text>
+            </svg>
+            <p class="dcap">Fig 5.2 — Countercurrent mass exchange in hemodialysis</p>
+          </div>
+        </div>
+        <div class="callout tip"><h4>💡 Dialysis Physics</h4><p>Countercurrent flow maintains a **constant concentration gradient** along the entire length of the filter, maximizing filtration efficiency compared to co-current flow.</p></div>
+        <div class="iq"><h4>📌 Important Questions</h4><ol><li>Explain the principle of hemodialysis in artificial kidney. (Q24)</li><li>How does an artificial lung (oxygenator) work? (Q23)</li></ol></div>
+      </div>
+    </article>
+
+  </div>
+</div>
+</section>
+
+<!-- ===================== QUICK RECAP ===================== -->
+<section class="view" id="view-recap">
+<div class="recap-wrap">
+  <h2 style="text-align:center;margin-bottom:10px;">⚡ Quick Recap &amp; Mnemonics</h2>
+  <p style="text-align:center;color:var(--ink-soft);max-width:600px;margin:0 auto 24px;">Quick reference summaries and memory joggers for human physiology and bio-device engineering.</p>
+
+  <div class="recap-grid">
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--ts);color:var(--t)">Nutrition</span>
+      <h4>Macronutrients vs Micronutrients</h4>
+      <ul>
+        <li><b>Macronutrients</b>: Carbs, Lipids, Proteins, Water. Needed in grams. Provide energy and structural blocks.</li>
+        <li><b>Micronutrients</b>: Vitamins, Minerals (Major &amp; Trace). Needed in micro/milligrams. Act as regulators and coenzymes.</li>
+      </ul>
+    </div>
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--ms);color:var(--m)">Digestion</span>
+      <h4>The GI Tract Highway</h4>
+      <ul>
+        <li><b>Mouth</b>: Salivary Amylase breaks starch.</li>
+        <li><b>Stomach</b>: HCl + Pepsin digests proteins.</li>
+        <li><b>Small Intestine</b>: Villi absorb 90% nutrients.</li>
+        <li><b>Large Intestine</b>: Recovers water and salts.</li>
+      </ul>
+    </div>
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--vs);color:var(--v)">Respiration</span>
+      <h4>Aerobic vs Anaerobic Yield</h4>
+      <ul>
+        <li><b>Aerobic</b>: C₆H₁₂O₆ + 6O₂ → 36 ATP. Occurs in mitochondria. End products CO₂ and H₂O.</li>
+        <li><b>Anaerobic</b>: C₆H₁₂O₆ → 2 ATP + Lactic Acid. Occurs in cytoplasm. High speed but low energy efficiency.</li>
+      </ul>
+    </div>
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--as);color:var(--a)">Excretion</span>
+      <h4>Urine Formation in Nephron</h4>
+      <ul>
+        <li><b>Glomerular Filtration</b>: Passive ultrafiltration of fluid based on hydrostatic pressure.</li>
+        <li><b>Tubular Reabsorption</b>: Transporting useful nutrients (glucose, water) back to blood.</li>
+        <li><b>Tubular Secretion</b>: Actively discarding wastes (K+, H+) into tubules.</li>
+      </ul>
+    </div>
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--rs);color:var(--r)">Artificial Organs</span>
+      <h4>Engineering Principles</h4>
+      <ul>
+        <li><b>Biocompatibility</b>: Avoiding blood clotting (thrombosis) or immune rejection.</li>
+        <li><b>Countercurrent Flow</b>: Used in dialysis to maintain mass transfer gradients.</li>
+        <li><b>Pacemaker Battery</b>: Lithium-iodine battery ensures long life span (7-10 years).</li>
+      </ul>
+    </div>
+    <div class="rc">
+      <span class="rc-tag" style="background:var(--as);color:var(--a)">Mnemonics</span>
+      <h4>Memory Joggers</h4>
+      <ul>
+        <li><b>"PiLGrim"</b>: Pancreas, Liver, Gallbladder (accessory organs).</li>
+        <li><b>"F-R-S"</b>: Filtration, Reabsorption, Secretion (nephron steps).</li>
+        <li><b>"COHN"</b>: Carbon, Oxygen, Hydrogen, Nitrogen (unique to proteins).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== LONG ANSWERS ===================== -->
+<section class="view" id="view-la">
+<div class="la-wrap">
+  <h2 style="text-align:center;margin-bottom:10px;">✍️ Solved Exam Question Bank</h2>
+  <p style="text-align:center;color:var(--ink-soft);max-width:600px;margin:0 auto 24px;">25 high-probability semester exam questions thoroughly answered for engineering students.</p>
+
+  <div class="la-list">
+
+    <!-- Q1 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q1</span>
+        <span class="qt">List and describe the six major classes of nutrients required by the human body.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>The six major classes of nutrients required by the body are divided into macronutrients and micronutrients:</p>
+          <ul>
+            <li><b>Carbohydrates:</b> The body's primary energy source (e.g., starch, sugars).</li>
+            <li><b>Lipids (Fats):</b> Used for long-term energy storage, organ cushioning, cell membranes, and hormones.</li>
+            <li><b>Proteins:</b> The building blocks of tissues and enzymes that catalyze metabolic reactions.</li>
+            <li><b>Water:</b> The universal solvent, transporting substances, regulating temperature, and cushioning joints.</li>
+            <li><b>Vitamins:</b> Organic molecules that regulate biochemical reactions (e.g., Vitamin C, Vitamin D).</li>
+            <li><b>Minerals:</b> Inorganic elements essential for structural roles (calcium in bones) and nerve transmission (sodium, potassium).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q2</span>
+        <span class="qt">Explain lipids and their primary functions.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p><b>Lipids</b> are organic molecules composed of carbon, hydrogen, and oxygen that are insoluble in water (hydrophobic). The main types are triglycerides (fats), phospholipids, and sterols (cholesterol).</p>
+          <h4>Primary Functions:</h4>
+          <ul>
+            <li><b>Energy Storage:</b> Highly concentrated energy store (9 kcal/g vs 4 kcal/g in carbs/proteins).</li>
+            <li><b>Structural Support:</b> Phospholipids build the lipid bilayer of all cellular membranes.</li>
+            <li><b>Insulation & Protection:</b> Adipose tissue insulates organs against heat loss and mechanical shock.</li>
+            <li><b>Hormone Synthesis:</b> Cholesterol serves as the precursor for steroid hormones (estrogen, testosterone, cortisol).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q3</span>
+        <span class="qt">Explain the biological role of carbohydrates in human nutrition.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Carbohydrates are the primary fuel source for ATP synthesis through cellular respiration. The brain and red blood cells rely exclusively on glucose under normal physiological conditions.</p>
+          <ul>
+            <li><b>Simple Carbohydrates:</b> Monosaccharides (glucose, fructose) and disaccharides (sucrose, lactose) provide immediate energy.</li>
+            <li><b>Complex Carbohydrates:</b> Polysaccharides (starch, glycogen, cellulose/fiber). Starch and glycogen store energy in plants and animals respectively, while fiber helps in bowel regulation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q4</span>
+        <span class="qt">Define macronutrients and micronutrients with examples.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <ul>
+            <li><b>Macronutrients:</b> Nutrients required in large amounts (grams) daily. They supply chemical energy and structural blocks. Examples: Carbohydrates, Lipids, Proteins, and Water.</li>
+            <li><b>Micronutrients:</b> Nutrients required in trace amounts (micrograms or milligrams) daily. They do not yield energy but are vital for metabolism and biochemical signaling. Examples: Vitamins (Vitamin C, B-complex) and Minerals (Iron, Calcium, Zinc).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q5</span>
+        <span class="qt">Discuss the structure and physiological importance of proteins in nutrition.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Proteins are polymers composed of <b>amino acid monomers</b> linked by peptide bonds. Unlike carbs and lipids, they contain Nitrogen (N) along with C, H, and O.</p>
+          <h4>Physiological Importance:</h4>
+          <ul>
+            <li><b>Enzymatic Activity:</b> All biological enzymes are proteins that speed up reactions millions of times.</li>
+            <li><b>Cellular Structure:</b> Form structural tissues like muscle, collagen in joints, hair (keratin), and skin.</li>
+            <li><b>Defense:</b> Antibodies that combat pathogens are specialized proteins.</li>
+            <li><b>Transport:</b> Hemoglobin is a protein that transports oxygen in the bloodstream.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q6</span>
+        <span class="qt">Why is water considered an essential nutrient, and what are its key functions in the body?</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Water is essential because the body cannot synthesize it in sufficient quantities to sustain life, and it constitutes over 60% of total body weight.</p>
+          <h4>Key Functions:</h4>
+          <ul>
+            <li><b>Reaction Medium:</b> Acts as the solvent for all biochemical reactions in the cytosol.</li>
+            <li><b>Transport Medium:</b> Forms plasma in blood to transport nutrients, oxygen, and metabolic waste.</li>
+            <li><b>Thermoregulation:</b> Absorb and dissipate heat via sweating, keeping core body temperature stable.</li>
+            <li><b>Lubrication & Cushioning:</b> Surrounds joints (synovial fluid) and cushions vital organs.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q7</span>
+        <span class="qt">Classify minerals into major and trace elements, detailing the role of calcium and iron.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <ul>
+            <li><b>Major Minerals:</b> Required in amounts &gt; 100 mg/day. Examples: Calcium (Ca), Sodium (Na), Potassium (K), Phosphorus (P), Magnesium (Mg), Chlorine (Cl), and Sulfur (S).</li>
+            <li><b>Trace Minerals:</b> Required in amounts &lt; 100 mg/day. Examples: Iron (Fe), Zinc (Zn), Iodine (I), Fluoride (F), Copper (Cu), Selenium (Se).</li>
+            <li><b>Calcium Role:</b> Critical for bone and tooth structure, skeletal muscle contraction, nerve impulse propagation, and blood clotting cascades.</li>
+            <li><b>Iron Role:</b> Central component of the heme group in hemoglobin and myoglobin, allowing oxygen transport in blood and muscle.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q8</span>
+        <span class="qt">Provide an overview of the human digestive system, listing the organs in the GI tract in sequence.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>The human digestive system breaks down food mechanically and chemically to absorb nutrients and eliminate waste. The gastrointestinal (GI) tract is a continuous muscular tube consisting of:</p>
+          <ol>
+            <li><b>Mouth:</b> Ingestion, mechanical mastication, and starch digestion.</li>
+            <li><b>Pharynx:</b> Swallowing passage.</li>
+            <li><b>Oesophagus:</b> Moves bolus down using peristalsis.</li>
+            <li><b>Stomach:</b> Acid digestion and churning of protein.</li>
+            <li><b>Small Intestine:</b> Primary absorption of nutrients.</li>
+            <li><b>Large Intestine:</b> Absorbs water and minerals.</li>
+            <li><b>Rectum &amp; Anus:</b> Storage and expulsion of waste.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q9</span>
+        <span class="qt">Describe the mechanical and chemical processes of digestion in the mouth.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <ul>
+            <li><b>Mechanical Digestion:</b> Chewing (mastication) by teeth grinds food into smaller pieces, increasing its surface area for enzymes.</li>
+            <li><b>Chemical Digestion:</b> Salivary glands release saliva, which contains:
+              <ul>
+                <li><b>Salivary Amylase:</b> Breaks complex starch molecules into maltose (simple disaccharide).</li>
+                <li><b>Lysozyme:</b> Weak antibacterial agent protecting the mouth.</li>
+                <li><b>Mucus:</b> Lubricates the food particles into a cohesive ball (bolus) for easy swallowing.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q10</span>
+        <span class="qt">Outline the process of digestion in the human stomach, explaining the roles of HCl, pepsin, and mucus.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>The stomach acts as a mixing chamber and acid digester. Its gastric juices contain three critical components:</p>
+          <ul>
+            <li><b>HCl (Hydrochloric Acid):</b> Lowers gastric pH to ~1.5-2.0. It kills ingested bacteria, denatures dietary proteins, and activates inactive pepsinogen into active pepsin.</li>
+            <li><b>Pepsin:</b> An active protease that breaks down long protein chains into smaller peptides.</li>
+            <li><b>Mucus:</b> Forms a thick, alkaline protective lining over the stomach walls, preventing the HCl and pepsin from digesting the stomach's own tissue (preventing ulcers).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q11</span>
+        <span class="qt">Detail the role of the small intestine in digestion and nutrient absorption.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>The small intestine (duodenum, jejunum, ileum) is where almost all nutrient absorption occurs.</p>
+          <ul>
+            <li><b>Digestion:</b> Receives bile from the liver (to emulsify fats) and pancreatic enzymes (amylase, lipase, trypsin) to complete chemical breakdown of macromolecules.</li>
+            <li><b>Surface Area Adaptation:</b> The inner lining is highly folded into <b>villi</b> and cellular <b>microvilli</b> (called the brush border), increasing the effective surface area by ~600 times for passive and active absorption.</li>
+            <li><b>Capillary Network:</b> Nutrients enter blood capillaries, while lipids enter lymphatic vessels called lacteals.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q12</span>
+        <span class="qt">What are the functions of the large intestine, rectum, and anus?</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <ul>
+            <li><b>Large Intestine (Colon):</b> Absorbs water and remaining electrolytes from undigested material. It houses beneficial gut bacteria that produce Vitamin K.</li>
+            <li><b>Rectum:</b> Temporary storage compartment that holds feces and triggers sensory nerves signaling the urge to defecate.</li>
+            <li><b>Anus:</b> Consists of internal (involuntary) and external (voluntary) sphincters that regulate the controlled elimination of waste.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q13</span>
+        <span class="qt">Explain the roles of the liver, gallbladder, and pancreas as accessory digestive organs.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Accessory organs assist in chemical digestion without food passing through them:</p>
+          <ul>
+            <li><b>Liver:</b> Synthesizes <b>bile salts</b> which emulsify large fat globules into tiny droplets, allowing lipase enzymes to work.</li>
+            <li><b>Gallbladder:</b> Stores, concentrates, and releases bile into the duodenum via the common bile duct in response to fatty meals.</li>
+            <li><b>Pancreas:</b> Synthesizes and secretes pancreatic juice containing bicarbonate (neutralizes stomach acid) and digestive enzymes: amylase (carbs), lipase (fats), and trypsin (proteins).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q14</span>
+        <span class="qt">Define respiration and distinguish between cellular respiration and breathing.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <ul>
+            <li><b>Breathing (Pulmonary Ventilation):</b> The mechanical, physical process of inhaling oxygen and exhaling carbon dioxide by expanding and contracting the thoracic cavity.</li>
+            <li><b>Cellular Respiration:</b> The metabolic, biochemical process occurring inside cells (cytoplasm and mitochondria) where glucose is broken down to generate ATP energy.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q15</span>
+        <span class="qt">Differentiate between aerobic and anaerobic respiration.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Cellular respiration pathways differ depending on oxygen availability:</p>
+          <table class="cmp">
+            <thead><tr><th>Parameter</th><th>Aerobic Respiration</th><th>Anaerobic Respiration</th></tr></thead>
+            <tbody>
+              <tr><td><b>Oxygen</b></td><td>Required</td><td>Absent / Not required</td></tr>
+              <tr><td><b>ATP Yield</b></td><td>36 - 38 ATP per glucose</td><td>2 ATP per glucose</td></tr>
+              <tr><td><b>End Products</b></td><td>CO₂ and H₂O</td><td>Lactic acid (mammals) or Ethanol (yeast)</td></tr>
+              <tr><td><b>Stages</b></td><td>Glycolysis, Krebs cycle, ETC</td><td>Glycolysis and Fermentation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q16</span>
+        <span class="qt">Describe the anatomy and gas exchange mechanism of the human respiratory system.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Anatomy: Air enters Nasal Cavity → Pharynx → Larynx → Trachea → Bronchi → Bronchioles → Alveoli.</p>
+          <p><b>Gas Exchange Mechanism:</b> Occurs at the alveoli. Due to partial pressure differences, Oxygen diffuses across the thin alveolar wall and capillary endothelium into deoxygenated blood where it binds to hemoglobin. Concurrently, Carbon Dioxide diffuses from blood into alveoli to be exhaled.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q17</span>
+        <span class="qt">Explain gas exchange across the alveolar-capillary membrane.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>This process relies on passive diffusion across the **alveolar-capillary membrane** (thickness &lt; 0.5 micrometers).</p>
+          <ul>
+            <li>In inhaled air within alveoli, partial pressure of oxygen ($P_{O2}$) is high (~104 mmHg), whereas in deoxygenated blood in capillaries it is low (~40 mmHg). Oxygen diffuses from alveoli into blood.</li>
+            <li>Conversely, the partial pressure of carbon dioxide ($P_{CO2}$) in blood is high (~45 mmHg) compared to alveolar air (~40 mmHg). CO₂ diffuses into alveoli.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q18</span>
+        <span class="qt">Explain the function of the human excretory system and define the role of kidneys.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>The **excretory system** removes metabolic waste, maintains water and electrolyte balances, and regulates blood pressure and pH.</p>
+          <p><b>Role of Kidneys:</b> Act as the primary blood filtration organs. They filter ~180 liters of blood daily, extracting waste molecules like urea and excess ions while reabsorbing essential water, glucose, and sodium to maintain homeostasis.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q19</span>
+        <span class="qt">Describe the structure of a nephron and the three processes involved in urine formation.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>A nephron consists of the renal corpuscle (glomerulus + Bowman's capsule) and renal tubules (Proximal Tubule, Loop of Henle, Distal Tubule, Collecting Duct).</p>
+          <h4>Three Processes of Urine Formation:</h4>
+          <ul>
+            <li><b>Ultrafiltration:</b> High blood pressure forces water and solutes out of the glomerulus into Bowman's capsule, forming filtrate.</li>
+            <li><b>Tubular Reabsorption:</b> Useful substances (glucose, amino acids, 99% of water) are actively or passively reabsorbed from filtrate back into blood capillaries.</li>
+            <li><b>Tubular Secretion:</b> Wastes like hydrogen ions, potassium, and drugs are actively transported from blood into tubules to be excreted in urine.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q20</span>
+        <span class="qt">What is an artificial organ, and what are the main design challenges in engineering them?</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>An **artificial organ** is a man-made device integrated into the human body to replace or support the function of a diseased or damaged natural organ.</p>
+          <h4>Engineering Design Challenges:</h4>
+          <ul>
+            <li><b>Biocompatibility:</b> Materials must not trigger immune reactions or chronic inflammation.</li>
+            <li><b>Hemocompatibility:</b> Devices in contact with blood must avoid causing shear stress, blood cell lysis (hemolysis), or clot formation (thrombosis).</li>
+            <li><b>Power Supply:</b> Implantable systems need long-lasting batteries or wireless inductive power transmission.</li>
+            <li><b>Control Systems:</b> Devices must adapt dynamically to physiological changes (e.g., matching pacemaker speed to physical activity).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q21</span>
+        <span class="qt">Explain the working principle of a cardiac pacemaker and its role in maintaining heart rhythm.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>An **artificial cardiac pacemaker** replaces a faulty sinoatrial (SA) node.</p>
+          <ul>
+            <li><b>Working Principle:</b> Contains a lithium battery, sensing circuits, and timing circuits. It continuously monitors the heart's electrical rhythm via electrodes inserted in the right atrium or ventricle.</li>
+            <li><b>Action:</b> If the heart's natural rate drops below a preset limit (e.g., 60 bpm), the pulse generator fires electrical pulses (~1-5 volts) that depolarize cardiac muscle fibers, triggering contraction and maintaining healthy cardiac output.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q22</span>
+        <span class="qt">Describe the function and design of an artificial heart.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>An **artificial heart** (or Total Artificial Heart, TAH) replaces both ventricles to restore systemic and pulmonary blood flow during end-stage heart failure.</p>
+          <ul>
+            <li><b>Design:</b> Features polymer chambers, mechanical valves (to ensure one-way flow), and diaphragm-like pistons.</li>
+            <li><b>Actuation:</b> Driven pneumatically or electromagnetically by an external controller connected via a transcutaneous driveline. The piston compresses the chambers alternately to mimic heartbeats.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q23</span>
+        <span class="qt">How does an artificial lung (membrane oxygenator) work during cardiopulmonary bypass?</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>An **artificial lung** (oxygenator) performs gas exchange outside the body during open-heart surgery:</p>
+          <ul>
+            <li><b>Design:</b> Contains thousands of microporous hollow polypropylene fibers.</li>
+            <li><b>Mechanism:</b> Blood passes around the outside of the fibers, while pure oxygen (sweep gas) flows inside the fibers.</li>
+            <li><b>Diffusion:</b> Oxygen diffuses through the micropores into the blood, while carbon dioxide diffuses from blood into the fibers to be vented, replicating alveolar gas exchange.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q24</span>
+        <span class="qt">Explain the principle of hemodialysis in an artificial kidney machine.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <p>Hemodialysis cleanses blood of metabolic toxins (urea, creatinine) via mass transfer:</p>
+          <ul>
+            <li><b>Semi-permeable Membrane:</b> Blood flows inside cellulose/synthetic hollow fibers, while a cleaning fluid (dialysate) flows outside.</li>
+            <li><b>Countercurrent Flow:</b> Blood and dialysate flow in opposite directions, maintaining a high concentration gradient along the entire dialyzer length.</li>
+            <li><b>Diffusion &amp; Ultrafiltration:</b> Waste diffuses down its gradient from blood into dialysate. Excess water is pushed out by applying hydrostatic pressure (ultrafiltration).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="la-item">
+      <button class="la-q" onclick="toggleLA(this)">
+        <span class="qn">Q25</span>
+        <span class="qt">Compare natural organs to artificial organs in terms of efficiency, regulation, and biocompatibility.</span>
+        <span class="arr">▼</span>
+      </button>
+      <div class="la-ans">
+        <div class="la-ans-inner">
+          <table class="cmp">
+            <thead><tr><th>Parameter</th><th>Natural Organ</th><th>Artificial Organ</th></tr></thead>
+            <tbody>
+              <tr><td><b>Biocompatibility</b></td><td>Perfect (self-cells)</td><td>Limited (risk of rejection/clotting)</td></tr>
+              <tr><td><b>Regulation</b></td><td>Automated via hormones/nerves</td><td>Requires electronic sensors &amp; algorithms</td></tr>
+              <tr><td><b>Efficiency</b></td><td>High (microscale optimization)</td><td>Moderate (macroscopic engineering limits)</td></tr>
+              <tr><td><b>Lifespan</b></td><td>Lifetime (capable of self-repair)</td><td>Limited (materials wear, batteries deplete)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ===================== MCQ BANK ===================== -->
+<section class="view" id="view-mcq">
+<div class="mcq-wrap">
+  <div class="mcq-bar">
+    <div class="mcq-sc">MCQ Quiz Score: <b id="mcq-score">0</b> / <b id="mcq-total">0</b></div>
+    <button class="rstbtn" onclick="resetMCQs()">Reset Quiz</button>
+  </div>
+
+  <h2 style="text-align:center;margin-bottom:10px;">🧠 Ultimate MCQ Bank</h2>
+  <p style="text-align:center;color:var(--ink-soft);max-width:600px;margin:0 auto 24px;">62 multiple-choice questions to test your knowledge. Practice with instant feedback and explanations.</p>
+
+  <div id="mcq-list">
+    <!-- MCQs will be injected here via JavaScript for efficiency and speed -->
+  </div>
+</div>
+</section>
+
+<script>
+// Tab view switcher
+function sv(viewId, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.getElementById('view-' + viewId).classList.add('on');
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  window.scrollTo(0,0);
+}
+
+// Sidebar topic switcher
+function st(topicId, btn) {
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('on'));
+  document.getElementById('t-' + topicId).classList.add('on');
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// Digestion Stepper
+const dSteps = [
+  {
+    lbl: "Mouth",
+    desc: "Ingestion and mechanical breakdown of food. Salivary glands release saliva containing salivary amylase to digest starch into maltose.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="50" rx="40" ry="20" fill="#FBE6EE" stroke="#C62D6F" stroke-width="2"/><text x="100" y="54" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#C62D6F">1. MOUTH</text></svg>`
+  },
+  {
+    lbl: "Pharynx & Oesophagus",
+    desc: "The tongue pushes the food bolus into the pharynx, which enters the oesophagus. Waves of muscular contraction (peristalsis) carry the food down.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><rect x="90" y="10" width="20" height="80" rx="5" fill="#E1F4F2" stroke="#0E8E89" stroke-width="2"/><text x="100" y="95" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#0E8E89">PERISTALSIS</text></svg>`
+  },
+  {
+    lbl: "Stomach",
+    desc: "Food is churned into chyme. Gastric glands secrete Hydrochloric Acid (HCl, activates enzymes), pepsin (digests proteins), and protective mucus.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="50" rx="45" ry="30" fill="#FBEDD8" stroke="#B8720D" stroke-width="2"/><text x="100" y="54" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#B8720D">3. STOMACH</text></svg>`
+  },
+  {
+    lbl: "Small Intestine",
+    desc: "Receives bile (emulsifies fats) and pancreatic enzymes (amylase, lipase, trypsin). Villi and microvilli absorb 90% of all digested nutrients.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 50 q25 -20 50 0 t50 0" stroke="#5B3E9E" stroke-width="8" fill="none" stroke-linecap="round"/><text x="100" y="85" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#5B3E9E">ABSORPTION</text></svg>`
+  },
+  {
+    lbl: "Large Intestine",
+    desc: "Absorbs remaining water and mineral salts, condensing indigestible food waste. Beneficial bacteria produce vitamins like Vitamin K.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><path d="M40 80 V20 H160 V80" stroke="#3F8E52" stroke-width="12" fill="none" stroke-linecap="round"/><text x="100" y="95" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#3F8E52">WATER RECOVERY</text></svg>`
+  },
+  {
+    lbl: "Rectum & Anus",
+    desc: "The rectum holds waste material (feces) until stretch receptors trigger the defecation reflex, expelling it through the anal canal.",
+    svg: `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg"><rect x="85" y="10" width="30" height="50" rx="5" fill="#FBE7E7" stroke="#C23B3B" stroke-width="2"/><circle cx="100" cy="75" r="10" fill="#C23B3B"/><text x="100" y="95" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#C23B3B">ELIMINATION</text></svg>`
+  }
+];
+
+let curDStep = 0;
+
+function updateDStep() {
+  const step = dSteps[curDStep];
+  document.getElementById('dstage').innerHTML = step.svg;
+  document.getElementById('dlbl').innerText = step.lbl;
+  document.getElementById('ddesc').innerText = step.desc;
+  
+  document.getElementById('dprev').disabled = curDStep === 0;
+  document.getElementById('dnext').disabled = curDStep === dSteps.length - 1;
+  
+  const dotsContainer = document.getElementById('ddots');
+  dotsContainer.innerHTML = '';
+  for (let i = 0; i < dSteps.length; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'dot2' + (i === curDStep ? ' on' : '');
+    dot.onclick = () => { curDStep = i; updateDStep(); };
+    dotsContainer.appendChild(dot);
+  }
+}
+
+function dStep(dir) {
+  curDStep += dir;
+  if (curDStep < 0) curDStep = 0;
+  if (curDStep >= dSteps.length) curDStep = dSteps.length - 1;
+  updateDStep();
+}
+
+// Long Answer Accordion
+function toggleLA(btn) {
+  const item = btn.closest('.la-item');
+  const ans = item.querySelector('.la-ans');
+  
+  if (item.classList.contains('open')) {
+    item.classList.remove('open');
+    ans.style.maxHeight = null;
+  } else {
+    item.classList.add('open');
+    ans.style.maxHeight = ans.scrollHeight + "px";
+  }
+}
+
+// MCQ Data
+const mcqs = [
+  // Nutrition (1-12)
+  { q: "What elements are carbohydrates composed of?", o: ["Carbon, Hydrogen, Oxygen", "Carbon, Nitrogen, Hydrogen", "Carbon, Sulfur, Oxygen", "Hydrogen, Nitrogen, Oxygen"], c: 0, e: "Carbohydrates are composed of Carbon, Hydrogen, and Oxygen in a 1:2:1 ratio generally." },
+  { q: "Which cells in the human body rely exclusively on carbohydrates for energy?", o: ["Muscle cells and kidney cells", "Brain cells and red blood cells", "Liver cells and bone cells", "Lung cells and skin cells"], c: 1, e: "Neurons in the brain and red blood cells rely strictly on glucose under normal metabolic conditions." },
+  { q: "Which of the following is a complex carbohydrate?", o: ["Glucose", "Sucrose", "Glycogen", "Fructose"], c: 2, e: "Glycogen is a highly branched polysaccharide (complex carb) used for glucose storage in animals." },
+  { q: "What makes proteins chemically distinct from carbohydrates and lipids?", o: ["Presence of Carbon", "Presence of Oxygen", "Presence of Nitrogen", "Insolubility in water"], c: 2, e: "Proteins contain Nitrogen (N) in their amino group, whereas carbs and lipids consist primarily of C, H, and O." },
+  { q: "What bonds link amino acids together in a protein chain?", o: ["Hydrogen bonds", "Peptide bonds", "Ester bonds", "Glycosidic bonds"], c: 1, e: "Peptide bonds form between the carboxyl group of one amino acid and the amino group of another." },
+  { q: "Which class of lipids forms the primary bilayer structure of cellular membranes?", o: ["Triglycerides", "Phospholipids", "Sterols", "Wax esters"], c: 1, e: "Phospholipids are amphipathic molecules, featuring hydrophilic heads and hydrophobic tails that form bilayers." },
+  { q: "What is the primary storage form of fat in adipose tissue?", o: ["Phospholipids", "Triglycerides", "Cholesterol", "Free fatty acids"], c: 1, e: "Triglycerides (composed of one glycerol and three fatty acid chains) store energy in adipose cells." },
+  { q: "What percentage of adult body weight is comprised of water?", o: ["20% to 30%", "40% to 50%", "60% or more", "80% to 90%"], c: 2, e: "Water constitutes approximately 60% or more of total body weight in healthy adults." },
+  { q: "Which of the following is classified as a major (macro) mineral?", o: ["Iron", "Zinc", "Calcium", "Iodine"], c: 2, e: "Calcium is a major mineral needed in hundreds of milligrams daily. Iron, zinc, and iodine are trace minerals." },
+  { q: "Which trace mineral is critical for the production of thyroid hormones?", o: ["Fluoride", "Selenium", "Zinc", "Iodine"], c: 3, e: "Iodine is a building block of thyroid hormones (thyroxine/T4 and triiodothyronine/T3)." },
+  { q: "What is the primary function of iron in human nutrition?", o: ["Bone mineralization", "Oxygen transport in hemoglobin", "Muscle contraction trigger", "Stomach acid production"], c: 1, e: "Iron acts as the central coordinator in heme, binding molecular oxygen in hemoglobin." },
+  { q: "Which nutrient class does NOT contain carbon?", o: ["Proteins", "Lipids", "Vitamins", "Water"], c: 3, e: "Water ($H_2O$) is inorganic and does not contain carbon atoms." },
+
+  // Digestion (13-24)
+  { q: "What is the correct sequence of organs in the gastrointestinal tract?", o: ["Mouth → Stomach → Pharynx → Small Intestine", "Mouth → Pharynx → Oesophagus → Stomach → Small Intestine", "Mouth → Oesophagus → Stomach → Large Intestine → Small Intestine", "Mouth → Larynx → Oesophagus → Stomach"], c: 1, e: "The food path is: Mouth, Pharynx, Oesophagus, Stomach, Small Intestine, Large Intestine, Rectum, and Anus." },
+  { q: "Which enzyme initiates starch digestion in the mouth?", o: ["Pepsin", "Trypsin", "Salivary amylase", "Lingual lipase"], c: 2, e: "Salivary amylase (ptyalin) starts breaking down complex starch into maltose in the oral cavity." },
+  { q: "What is the function of peristalsis in the oesophagus?", o: ["Chemical acid digestion", "Rhythmic contractions pushing food down", "Neutralization of saliva", "Absorption of water"], c: 1, e: "Peristalsis is a series of wave-like muscle contractions that move the food bolus along the GI tract." },
+  { q: "What is the role of hydrochloric acid (HCl) in the stomach?", o: ["Emulsifying fat molecules", "Activating pepsinogen into pepsin", "Synthesizing gastric mucus", "Absorbing Vitamin B12"], c: 1, e: "HCl lowers pH, denatures proteins, and converts inactive pepsinogen into active pepsin." },
+  { q: "Which component protects the stomach lining from self-digestion by HCl?", o: ["Pepsinogen", "Alkaline mucus", "Bile salts", "Salivary amylase"], c: 1, e: "Alkaline mucus forms a protective physical barrier over the gastric mucosa." },
+  { q: "Where does the majority of nutrient absorption take place?", o: ["Stomach", "Small Intestine", "Large Intestine", "Oesophagus"], c: 1, e: "The small intestine absorbs over 90% of nutrients due to the massive surface area of villi." },
+  { q: "What structural adaptations increase the small intestine's absorption surface area?", o: ["Gastric pits", "Villi and microvilli", "Haustra segments", "Cartilage rings"], c: 1, e: "Villi and microvilli increase surface area by several hundred-fold." },
+  { q: "Which organ produces bile?", o: ["Gallbladder", "Pancreas", "Liver", "Stomach"], c: 2, e: "The liver produces bile; the gallbladder only stores and concentrates it." },
+  { q: "What is the digestive function of bile?", o: ["Proteolysis of polypeptides", "Emulsification of fats", "Hydrolysis of starches", "Activation of salivary enzymes"], c: 1, e: "Bile salts act like detergents to emulsify fat globules, creating a large surface area for lipase." },
+  { q: "Which accessory organ secretes digestive enzymes and bicarbonate into the small intestine?", o: ["Liver", "Gallbladder", "Pancreas", "Spleen"], c: 2, e: "The pancreas secretes pancreatic juice containing enzymes and bicarbonate to neutralize acidic chyme." },
+  { q: "What is the primary function of the large intestine?", o: ["Absorption of proteins", "Absorption of water and electrolytes", "Fat emulsification", "Synthesis of hydrochloric acid"], c: 1, e: "The large intestine absorbs water and minerals, compacting stool." },
+  { q: "Which vitamin is synthesized by gut bacteria in the large intestine?", o: ["Vitamin C", "Vitamin A", "Vitamin K", "Vitamin D"], c: 2, e: "Symbiotic colonic bacteria synthesize Vitamin K, which is absorbed by the host." },
+
+  // Respiration (25-36)
+  { q: "What is the difference between breathing and respiration?", o: ["Breathing is chemical; respiration is physical", "Breathing is physical gas movement; respiration is cellular ATP synthesis", "They are identical terms", "Respiration only happens in plants"], c: 1, e: "Breathing is mechanical ventilation. Respiration is cellular biochemical energy production." },
+  { q: "Where does glycolysis take place in the cell?", o: ["Mitochondria matrix", "Inner mitochondrial membrane", "Cytoplasm", "Ribosomes"], c: 2, e: "Glycolysis, the anaerobic split of glucose, occurs in the cytoplasm." },
+  { q: "Which stage of aerobic respiration produces the most ATP?", o: ["Glycolysis", "Krebs Cycle", "Electron Transport Chain", "Lactic acid fermentation"], c: 2, e: "The Electron Transport Chain (oxidative phosphorylation) produces ~32-34 ATP out of the total 36-38." },
+  { q: "What is the total net ATP yield of aerobic respiration per glucose molecule?", o: ["2 ATP", "4 ATP", "36 to 38 ATP", "120 ATP"], c: 2, e: "Aerobic oxidation generates between 36 and 38 net ATP." },
+  { q: "What is the net ATP yield of anaerobic lactic acid respiration?", o: ["2 ATP", "36 ATP", "38 ATP", "0 ATP"], c: 0, e: "Anaerobic glycolysis yields only a net of 2 ATP per glucose molecule." },
+  { q: "What end product is formed during anaerobic respiration in human muscle cells?", o: ["Ethanol and CO2", "Lactic Acid", "Pyruvate and O2", "Water and ATP"], c: 1, e: "Mammals convert pyruvate to lactic acid during oxygen deficits." },
+  { q: "Which structure prevents food from entering the trachea during swallowing?", o: ["Larynx", "Epiglottis", "Pharynx", "Bronchus"], c: 1, e: "The epiglottis folds down to seal the laryngeal inlet during swallowing." },
+  { q: "What is the primary functional unit of the lung where gas exchange occurs?", o: ["Bronchiole", "Trachea", "Alveolus", "Pleural cavity"], c: 2, e: "Alveoli are the micro-air sacs where gas exchange occurs with capillaries." },
+  { q: "What mechanism drives gas exchange across the respiratory membrane?", o: ["Active transport pump", "Facilitated diffusion carriers", "Passive simple diffusion", "Osmosis"], c: 2, e: "Gases diffuse passively down partial pressure gradients." },
+  { q: "How is the majority of oxygen transported in the blood?", o: ["Dissolved in plasma", "Bound to hemoglobin in RBCs", "As bicarbonate ions", "Bound to white blood cells"], c: 1, e: "Over 98% of blood oxygen is carried bound to hemoglobin." },
+  { q: "How is the majority of carbon dioxide transported in blood?", o: ["Bound to hemoglobin", "Dissolved as gas in plasma", "As bicarbonate ions ($HCO_3^-$)", "As lactic acid"], c: 2, e: "About 70% of carbon dioxide is converted into bicarbonate ions in RBCs and carried in plasma." },
+  { q: "Which muscle is primarily responsible for changing thoracic volume during breathing?", o: ["Pectoralis major", "Intercostal muscle", "Diaphragm", "Abdominals"], c: 2, e: "The contraction and relaxation of the dome-shaped diaphragm drives breathing." },
+
+  // Excretion (37-48)
+  { q: "Which of the following is the correct path of urine excretion?", o: ["Kidney → Bladder → Ureter → Urethra", "Kidney → Ureter → Bladder → Urethra", "Kidney → Urethra → Bladder → Ureter", "Bladder → Kidney → Ureter → Urethra"], c: 1, e: "Urine flows from Kidneys, through Ureters, stores in Bladder, and exits via Urethra." },
+  { q: "What is the functional unit of the kidney?", o: ["Nephron", "Neuron", "Alveolus", "Villus"], c: 0, e: "The nephron is the microscopic unit responsible for urine formation." },
+  { q: "Where does blood filtration (ultrafiltration) occur in the nephron?", o: ["Loop of Henle", "Glomerulus & Bowman's Capsule", "Distal convoluted tubule", "Collecting duct"], c: 1, e: "Blood pressure drives filtration across the glomerular capillaries into Bowman's capsule." },
+  { q: "Which of the following is normally NOT filtered out of blood in the glomerulus?", o: ["Urea", "Glucose", "Proteins and RBCs", "Water"], c: 2, e: "Large proteins and cells are too big to pass the filtration barrier." },
+  { q: "What is tubular reabsorption?", o: ["Moving waste from blood to tubule", "Moving water and nutrients from filtrate back to blood", "Excreting urine to bladder", "Filtering blood in glomerulus"], c: 1, e: "Reabsorption reclaims useful water, glucose, and ions from the filtrate back into circulation." },
+  { q: "Where is glucose completely reabsorbed in a healthy kidney?", o: ["Proximal Convoluted Tubule (PCT)", "Loop of Henle", "Collecting duct", "Glomerulus"], c: 0, e: "100% of glucose is normally reabsorbed in the PCT." },
+  { q: "What is the primary function of the Loop of Henle?", o: ["Protein filtration", "Creating a concentration gradient to conserve water", "Secreting drugs", "Storing urine"], c: 1, e: "The Loop of Henle builds an osmotic gradient in the renal medulla to concentrate urine." },
+  { q: "What process moves toxic ions and drugs from blood directly into renal tubules?", o: ["Glomerular filtration", "Tubular reabsorption", "Tubular secretion", "Osmosis"], c: 2, e: "Tubular secretion actively eliminates blood wastes that were not filtered." },
+  { q: "Which hormone regulates water reabsorption in the collecting ducts?", o: ["Insulin", "Antidiuretic Hormone (ADH)", "Thyroxine", "Adrenaline"], c: 1, e: "ADH (vasopressin) inserts aquaporins in collecting ducts, increasing water reabsorption." },
+  { q: "What is the primary metabolic nitrogenous waste excreted by kidneys?", o: ["Uric acid", "Ammonia", "Urea", "Creatine"], c: 2, e: "Urea, produced in the liver from ammonia, is the main nitrogenous waste." },
+  { q: "Which kidney function helps regulate blood pH?", o: ["Reabsorption of glucose", "Secretion of Hydrogen ions ($H^+$) and reabsorption of bicarbonate", "Filtration of proteins", "Excretion of urea"], c: 1, e: "Kidneys regulate pH by secreting excess $H^+$ and reclaiming bicarbonate buffer." },
+  { q: "Which vessel brings blood into the kidney for filtration?", o: ["Renal vein", "Renal artery", "Hepatic artery", "Vena cava"], c: 1, e: "The renal artery branches off the aorta to supply blood to the kidneys." },
+
+  // Artificial Organs (49-62)
+  { q: "What is the primary clinical indication for an artificial pacemaker?", o: ["Heart attack (myocardial infarction)", "Slow or irregular heartbeats (bradycardia)", "High blood pressure", "Valvular stenosis"], c: 1, e: "Pacemakers stimulate the heart when the natural pacemaker (SA Node) is too slow." },
+  { q: "Which battery type is most common in modern pacemakers?", o: ["Alkaline", "Lead-acid", "Lithium-iodine", "Nickel-cadmium"], c: 2, e: "Lithium-iodine batteries are used for high energy density and long lifespan (7-10 years)." },
+  { q: "What is the natural pacemaker of the human heart?", o: ["AV Node", "Purkinje fibers", "Sinoatrial (SA) Node", "Bundle of His"], c: 2, e: "The SA Node in the right atrium initiates the electrical heartbeat." },
+  { q: "What does biocompatibility mean in artificial organ design?", o: ["The device can run on solar energy", "The materials do not elicit a harmful immune response", "The device is biodegradable", "The device uses biological tissue only"], c: 1, e: "Biocompatible materials exist inside the host without triggering rejection or toxicity." },
+  { q: "What is a major risk for devices in continuous contact with blood?", o: ["Corrosion by oxygen", "Thrombosis (blood clotting)", "Muscle fatigue", "Dehydration"], c: 1, e: "Contact with foreign surfaces triggers the coagulation cascade, risking blood clots." },
+  { q: "What is the working principle of hemodialysis?", o: ["Active transport of urea", "Countercurrent diffusion across a semi-permeable membrane", "Chemical neutralization of wastes", "Centrifugal separation of blood cells"], c: 1, e: "Dialysis uses countercurrent diffusion across hollow fiber membranes." },
+  { q: "Why is countercurrent flow used in dialyzers?", o: ["It uses less dialysate fluid", "It maintains a high concentration gradient along the filter length", "It prevents blood pressure from dropping", "It warms the blood"], c: 1, e: "Countercurrent flow maximizes mass transfer compared to co-current flow." },
+  { q: "What does an artificial lung (oxygenator) do?", o: ["Pumps blood throughout the body", "Performs gas exchange ($O_2$ input, $CO_2$ removal)", "Filters waste toxins", "Regulates body temperature"], c: 1, e: "An oxygenator adds oxygen and vents carbon dioxide from bypass blood." },
+  { q: "Which fibers are typically used in membrane oxygenators?", o: ["Hollow microporous polypropylene fibers", "Solid copper wires", "Cellulose acetate dialysis tubes", "Silicone rubber bands"], c: 0, e: "Microporous polypropylene hollow fibers allow gas diffusion without direct blood-gas contact." },
+  { q: "What is a Ventricular Assist Device (VAD)?", o: ["A temporary pacemaker", "A mechanical pump supporting a failing ventricle", "An artificial valve", "A dialysis filter"], c: 1, e: "VADs are mechanical pumps used as bridge-to-transplant therapies." },
+  { q: "What material properties prevent protein adsorption and clotting?", o: ["Hydrophobic surfaces", "Hydrophilic and heparin-coated surfaces", "Rough metallic surfaces", "Lead alloy coatings"], c: 1, e: "Hydrophilic and heparin-bonded coatings shield materials from clotting factors." },
+  { q: "What is the clinical term for blood cell rupture caused by mechanical shear in pumps?", o: ["Thrombosis", "Hemolysis", "Leukemia", "Vasodilation"], c: 1, e: "Hemolysis is the physical rupture of red blood cells, releasing hemoglobin." },
+  { q: "Which component of the artificial kidney applies negative pressure to remove excess water?", o: ["Dialysate pump", "Ultrafiltration controller", "Bubble trap", "Blood pump"], c: 1, e: "Ultrafiltration uses pressure gradients to force excess water out of blood." },
+  { q: "What is a major engineering disadvantage of artificial organs compared to natural ones?", o: ["They cannot be sterilized", "They lack self-repair capabilities and active homeostatic feedback", "They are too small", "They cannot transport oxygen"], c: 1, e: "Man-made devices cannot self-repair and require external control algorithms to adapt to changes." }
+];
+
+let mcqScore = 0;
+let mcqTotalAnswered = 0;
+
+function renderMCQs() {
+  const container = document.getElementById('mcq-list');
+  container.innerHTML = '';
+  
+  mcqs.forEach((item, index) => {
+    const qNum = index + 1;
+    const block = document.createElement('div');
+    block.className = 'mcq-i';
+    block.id = 'mcq-q-' + qNum;
+    
+    let optsHtml = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    item.o.forEach((optText, optIdx) => {
+      optsHtml += `
+        <button class="opt" onclick="checkMCQ(this, ${qNum}, ${optIdx})">
+          <span class="lt">${letters[optIdx]}</span>
+          <span>${optText}</span>
+        </button>
+      `;
+    });
+    
+    block.innerHTML = `
+      <div class="mcq-q"><span class="qn">Q${qNum}.</span> ${item.q}</div>
+      <div class="mcq-opts">
+        ${optsHtml}
+      </div>
+      <div class="exp" id="exp-${qNum}">${item.e}</div>
+    `;
+    container.appendChild(block);
+  });
+}
+
+function checkMCQ(btn, qNum, optIndex) {
+  const parent = btn.closest('.mcq-i');
+  const opts = parent.querySelectorAll('.opt');
+  const correctOpt = mcqs[qNum - 1].c;
+  
+  // Disable all options for this question
+  opts.forEach((o, idx) => {
+    o.disabled = true;
+    if (idx === correctOpt) {
+      o.classList.add('correct');
+    }
+  });
+  
+  if (optIndex === correctOpt) {
+    btn.classList.add('correct');
+    mcqScore++;
+  } else {
+    btn.classList.add('wrong');
+  }
+  
+  mcqTotalAnswered++;
+  document.getElementById('mcq-score').innerText = mcqScore;
+  document.getElementById('mcq-total').innerText = mcqTotalAnswered;
+  
+  // Show explanation
+  const exp = document.getElementById('exp-' + qNum);
+  if (exp) {
+    exp.classList.add('show');
+  }
+}
+
+function resetMCQs() {
+  mcqScore = 0;
+  mcqTotalAnswered = 0;
+  document.getElementById('mcq-score').innerText = '0';
+  document.getElementById('mcq-total').innerText = '0';
+  
+  document.querySelectorAll('.opt').forEach(o => {
+    o.disabled = false;
+    o.classList.remove('correct', 'wrong');
+  });
+  
+  document.querySelectorAll('.exp').forEach(e => {
+    e.classList.remove('show');
+  });
+}
+
+// Initial setup on load
+window.onload = function() {
+  updateDStep();
+  renderMCQs();
+};
+</script>
+</body>
+</html>
